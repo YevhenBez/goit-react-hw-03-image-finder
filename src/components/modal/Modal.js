@@ -17,11 +17,18 @@ class Modal extends React.Component {
       this.props.onClose();
     }
   };
+
+  onOverlayClose = event => {
+    if (event.currentTarget === event.target) {
+      this.props.onClose();
+    }
+  };
+
   render() {
     return createPortal(
-      <div className="overlay">
+      <div onClick={this.onOverlayClose} className="overlay">
         <div className="modal">
-          <img src="" alt="" />
+          <img src="" alt="img" />
         </div>
       </div>,
       modalRoot
