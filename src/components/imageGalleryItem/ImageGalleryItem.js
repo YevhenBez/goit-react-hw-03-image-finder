@@ -11,7 +11,7 @@ class ImageGalleryItem extends React.Component {
   render() {
     return (
       <li class="gallery-item">
-        <img src="" alt="" />
+        <img onClick={this.onModal} src="" alt="" />
         {this.state.shownModal && <Modal onClose={this.onModal}/>}
       </li>
     );
