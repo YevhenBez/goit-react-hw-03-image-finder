@@ -5,16 +5,30 @@ class Searchbar extends React.Component {
     inputData: '',
   };
 
+  onChangeInput = event => {
+    this.setState({ inputData: event.currentTarget.value.toLowerCase() });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.onSubmit(this.state.inputData);
+    this.setState({ inputData: '' });
+  };
+
   render() {
+    const { inputData } = this.state.inputData;
     return (
       <header className="searchbar">
-        <form className="form">
+        <form className="form" onSubmit={this.handleSubmit}>
           <button type="submit" className="button">
             <span className="button-label">Search</span>
           </button>
 
           <input
             className="input"
+            name="inputData"
+            value={inputData}
+            onChange={this.onChangeInput}
             type="text"
             autoComplete="off"
             autoFocus
