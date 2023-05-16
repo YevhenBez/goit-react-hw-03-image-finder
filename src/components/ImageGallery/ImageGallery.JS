@@ -14,3 +14,4 @@ function ImageGallery({ items }) {
 }
 
 export default ImageGallery;
+
