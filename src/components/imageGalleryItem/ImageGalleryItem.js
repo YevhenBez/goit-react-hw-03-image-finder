@@ -1,5 +1,6 @@
 import Modal from '../modal/Modal';
 import React from 'react';
+import css from './css/imageGalleryItem.module.css';
 
 class ImageGalleryItem extends React.Component {
   state = {
@@ -12,8 +13,8 @@ class ImageGalleryItem extends React.Component {
     const { item } = this.props;
     const { webformatURL } = item;
     return (
-      <li className="gallery-item">
-        <img onClick={this.onModal} src={webformatURL} alt="img" />
+      <li className={css.ImageGalleryItem}>
+        <img onClick={this.onModal} className={css.ImageGalleryItemPicture} src={webformatURL} alt="img" />
         {this.state.shownModal && <Modal onClose={this.onModal} image={item}/>}
       </li>
     );
