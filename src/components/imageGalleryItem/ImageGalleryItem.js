@@ -10,10 +10,12 @@ class ImageGalleryItem extends React.Component {
   };
   render() {
     return (
-      <li class="gallery-item">
+      <li className="gallery-item">
         <img onClick={this.onModal} src="" alt="" />
         {this.state.shownModal && <Modal onClose={this.onModal}/>}
       </li>
     );
   }
 }
+
+export default ImageGalleryItem;

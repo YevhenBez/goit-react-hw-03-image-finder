@@ -1,7 +1,13 @@
-function ImageGallery() {
+import ImageGalleryItem from '../imageGalleryItem/ImageGalleryItem';
+
+function ImageGallery({ items }) {
   return (
     <>
-      <ul class="gallery">{/* <!-- Набір <li> із зображеннями --> */}</ul>
+      <ul className="gallery">
+        {/* <!-- Набір <li> із зображеннями --> */}
+        {items.map(item => (
+          <ImageGalleryItem key={item.id} item={item} />
+        ))}</ul>
     </>
   );
 }
