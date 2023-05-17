@@ -15,8 +15,13 @@ class ImageGalleryItem extends React.Component {
     const { webformatURL } = item;
     return (
       <li className={css.imageGalleryItem}>
-        <img onClick={this.onModal} className={css.imageGalleryItemPicture} src={webformatURL} alt="img" />
-        {this.state.shownModal && <Modal onClose={this.onModal} image={item}/>}
+        <img
+          onClick={this.onModal}
+          className={css.imageGalleryItemPicture}
+          src={webformatURL}
+          alt="img"
+        />
+        {this.state.shownModal && <Modal onClose={this.onModal} image={item} />}
       </li>
     );
   }

@@ -9,7 +9,8 @@ function ImageGallery({ items }) {
         {/* <!-- Набір <li> із зображеннями --> */}
         {items.map(item => (
           <ImageGalleryItem key={item.id} item={item} />
-        ))}</ul>
+        ))}
+      </ul>
     </>
   );
 }
