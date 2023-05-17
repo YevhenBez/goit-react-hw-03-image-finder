@@ -1,6 +1,7 @@
 import Modal from '../modal/Modal';
 import React from 'react';
 import css from './css/imageGalleryItem.module.css';
+import PropTypes from 'prop-types';
 
 class ImageGalleryItem extends React.Component {
   state = {
@@ -20,5 +21,9 @@ class ImageGalleryItem extends React.Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 export default ImageGalleryItem;
