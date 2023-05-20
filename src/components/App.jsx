@@ -2,7 +2,7 @@ import React from 'react';
 import Searchbar from './searchbar/Searchbar';
 import Button from './button/Button';
 import ImageGallery from './ImageGallery/ImageGallery';
-import { fetchImages } from './fetchImages/fetchImages';
+import { fetchImages } from '../fetchImages';
 import Loader from './loader/Loader';
 import css from './app.module.css';
 
