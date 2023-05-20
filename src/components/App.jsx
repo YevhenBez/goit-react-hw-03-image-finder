@@ -23,8 +23,8 @@ class App extends React.Component {
 
     if (inputData.trim() === '') {
       return;
-     } if (prevState.inputData !== inputData) {
-      
+    }
+    if (prevState.inputData !== inputData) {
       try {
         this.setState({ status: 'pending' });
         const { totalHits, hits } = await fetchImages(inputData, page);
@@ -43,18 +43,17 @@ class App extends React.Component {
       }
     }
     if (prevState.page !== page) {
-    this.setState({ status: 'pending' });
+      this.setState({ status: 'pending' });
 
-    try {
-      const { hits } = await fetchImages(inputData, page);
-      this.setState(prevState => ({
-        items: [...prevState.items, ...hits],
-        status: 'resolved',
-      }));
-    } catch (error) {
-      this.setState({ status: 'rejected' });
-    
-  };
+      try {
+        const { hits } = await fetchImages(inputData, page);
+        this.setState(prevState => ({
+          items: [...prevState.items, ...hits],
+          status: 'resolved',
+        }));
+      } catch (error) {
+        this.setState({ status: 'rejected' });
+      }
     }
   }
 
@@ -111,8 +110,6 @@ class App extends React.Component {
     //рефакторинг на componentDidUpdate
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
-
-  
 
   render() {
     const { totalHits, status, items } = this.state;
