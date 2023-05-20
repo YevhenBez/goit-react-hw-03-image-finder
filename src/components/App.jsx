@@ -6,22 +6,25 @@ import { fetchImages } from './fetchImages/fetchImages';
 import Loader from './loader/Loader';
 import css from './app.module.css';
 
-let page = 1;
+// let page = 1;
 
 class App extends React.Component {
   state = {
     inputData: '',
     items: [],
-
+    page: 1, //рефакторинг на componentDidUpdate
     status: 'idle',
     totalHits: 0,
   };
 
-  handleSubmit = async inputData => {
-    page = 1;
+  async componentDidUpdate(_, prevState) {
+    //рефакторинг на componentDidUpdate
+    const { page, inputData } = this.state;
+
     if (inputData.trim() === '') {
       return;
-    } else {
+     } if (prevState.inputData !== inputData) {
+      
       try {
         this.setState({ status: 'pending' });
         const { totalHits, hits } = await fetchImages(inputData, page);
@@ -39,20 +42,78 @@ class App extends React.Component {
         this.setState({ status: 'rejected' });
       }
     }
-  };
-  onNextPage = async () => {
+    if (prevState.page !== page) {
     this.setState({ status: 'pending' });
 
     try {
-      const { hits } = await fetchImages(this.state.inputData, (page += 1));
+      const { hits } = await fetchImages(inputData, page);
       this.setState(prevState => ({
         items: [...prevState.items, ...hits],
         status: 'resolved',
       }));
     } catch (error) {
       this.setState({ status: 'rejected' });
-    }
+    
   };
+    }
+  }
+
+  // handleSubmit = async inputData => {
+  //   page = 1;
+  //   if (inputData.trim() === '') {
+  //     return;
+  //   } else {
+  //     try {
+  //       this.setState({ status: 'pending' });
+  //       const { totalHits, hits } = await fetchImages(inputData, page);
+  //       if (hits.length < 1) {
+  //         this.setState({ status: 'idle' });
+  //       } else {
+  //         this.setState({
+  //           items: hits,
+  //           inputData,
+  //           totalHits: totalHits,
+  //           status: 'resolved',
+  //         });
+  //       }
+  //     } catch (error) {
+  //       this.setState({ status: 'rejected' });
+  //     }
+  //   }
+  // };
+
+  handleSubmit = inputData => {
+    //рефакторинг на componentDidUpdate
+    this.setState({
+      inputData,
+      items: [],
+      page: 1,
+      status: 'idle',
+      totalHits: 0,
+    });
+  };
+
+  // onNextPage = async () => {
+  //   this.setState({ status: 'pending' });
+
+  //   try {
+  //     const { hits } = await fetchImages(this.state.inputData, (page += 1));
+  //     this.setState(prevState => ({
+  //       items: [...prevState.items, ...hits],
+  //       status: 'resolved',
+  //     }));
+  //   } catch (error) {
+  //     this.setState({ status: 'rejected' });
+  //   }
+  // };
+
+  onNextPage = () => {
+    //рефакторинг на componentDidUpdate
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
+  
+
   render() {
     const { totalHits, status, items } = this.state;
     if (status === 'idle') {
@@ -66,7 +127,7 @@ class App extends React.Component {
       return (
         <div className={css.app}>
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={page} items={this.state.items} />
+          <ImageGallery items={this.state.items} />
           <Loader />
           {totalHits > 12 && <Button onClick={this.onNextPage} />}
         </div>
@@ -84,7 +145,7 @@ class App extends React.Component {
       return (
         <div className={css.app}>
           <Searchbar onSubmit={this.handleSubmit} />
-          <ImageGallery page={page} items={this.state.items} />
+          <ImageGallery items={this.state.items} />
           {totalHits > 12 && totalHits > items.length && (
             <Button onClick={this.onNextPage} />
           )}
