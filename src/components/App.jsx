@@ -42,7 +42,7 @@ class App extends React.Component {
         this.setState({ status: 'rejected' });
       }
     }
-    if (prevState.page !== page) {
+    if (prevState.page !== page && prevState.inputData === inputData) {
       this.setState({ status: 'pending' });
 
       try {
