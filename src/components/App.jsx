@@ -15,12 +15,12 @@ class App extends React.Component {
     page: 1, //рефакторинг на componentDidUpdate
     status: 'idle',
     totalHits: 0,
+    showButtonMore: false
   };
 
   async componentDidUpdate(_, prevState) {
     //рефакторинг на componentDidUpdate
     const { page, inputData } = this.state;
-
     if (inputData.trim() === '') {
       return;
     }
@@ -36,6 +36,7 @@ class App extends React.Component {
             inputData,
             totalHits: totalHits,
             status: 'resolved',
+            showButtonMore: true
           });
         }
       } catch (error) {
@@ -50,6 +51,7 @@ class App extends React.Component {
         this.setState(prevState => ({
           items: [...prevState.items, ...hits],
           status: 'resolved',
+          showButtonMore: true
         }));
       } catch (error) {
         this.setState({ status: 'rejected' });
@@ -108,11 +110,11 @@ class App extends React.Component {
 
   onNextPage = () => {
     //рефакторинг на componentDidUpdate
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({ page: prevState.page + 1, showButtonMore: false }));
   };
 
   render() {
-    const { totalHits, status, items } = this.state;
+    const { totalHits, status, items, showButtonMore } = this.state;
     if (status === 'idle') {
       return (
         <div className={css.app}>
@@ -126,7 +128,7 @@ class App extends React.Component {
           <Searchbar onSubmit={this.handleSubmit} />
           <ImageGallery items={this.state.items} />
           <Loader />
-          {totalHits > 12 && <Button onClick={this.onNextPage} />}
+          {showButtonMore && totalHits > 12 && <Button onClick={this.onNextPage} />}
         </div>
       );
     }
@@ -143,7 +145,7 @@ class App extends React.Component {
         <div className={css.app}>
           <Searchbar onSubmit={this.handleSubmit} />
           <ImageGallery items={this.state.items} />
-          {totalHits > 12 && totalHits > items.length && (
+          {showButtonMore && totalHits > 12 && totalHits > items.length && (
             <Button onClick={this.onNextPage} />
           )}
         </div>
